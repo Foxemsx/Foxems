@@ -68,7 +68,7 @@ export function useGamingStats() {
 // Vercel Cloud API URL (same domain for production, configurable for dev)
 const VERCEL_API_URL = import.meta.env.VERCEL_URL 
   ? `https://${import.meta.env.VERCEL_URL}` 
-  : window.location.origin;
+  : (typeof window !== 'undefined' ? window.location.origin : '');
 
 async function fetchNowWatching(): Promise<NowWatching> {
   // Try 1: Vercel Cloud API (primary - works everywhere)
