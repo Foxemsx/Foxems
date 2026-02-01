@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import type { Profile, AnimeStats, TierAnime, TierData, GamingStats, WebsiteData, NowWatching } from '../types/api';
 
-// Electron API server port (default from store.ts)
 const ELECTRON_API_PORT = 8765;
 const ELECTRON_API_URL = `http://localhost:${ELECTRON_API_PORT}`;
 
-// Simple fetch from static data.json
 async function fetchWebsiteData(): Promise<WebsiteData> {
   const res = await fetch('/data.json');
   if (!res.ok) throw new Error('Failed to load data');
@@ -67,21 +65,17 @@ export function useGamingStats() {
   });
 }
 
-// Fetch now watching status from API (for real-time updates)
 async function fetchNowWatching(): Promise<NowWatching> {
   try {
-    // Try to fetch from Electron API server first (real-time extension data)
     const res = await fetch(`${ELECTRON_API_URL}/api/now-watching`);
     if (!res.ok) throw new Error('Failed to fetch now watching from Electron API');
     return res.json();
   } catch {
-    // Fallback to mock endpoint if Electron API is not available
     try {
       const res = await fetch('/api/now-watching');
       if (!res.ok) throw new Error('Failed to fetch now watching from mock API');
       return res.json();
     } catch {
-      // Return default "not watching" state if both APIs unavailable
       return {
         isWatching: false,
         timestamp: new Date().toISOString(),
@@ -94,7 +88,7 @@ export function useNowWatching() {
   return useQuery<NowWatching, Error>({
     queryKey: ['now-watching'],
     queryFn: fetchNowWatching,
-    refetchInterval: 5000, // Poll every 5 seconds for real-time feel
+    refetchInterval: 5000,
     staleTime: 0,
     retry: false,
   });

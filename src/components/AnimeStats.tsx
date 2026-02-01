@@ -90,7 +90,6 @@ function StatCard({ icon: Icon, label, value, subLabel, color, delay, badge, pro
   );
 }
 
-// Taste DNA Radar Chart Component
 function TasteDNAChart({ genres }: { genres: GenreData[] }) {
   const topGenres = genres.slice(0, 8);
   const size = 280;
@@ -103,7 +102,6 @@ function TasteDNAChart({ genres }: { genres: GenreData[] }) {
   const angleStep = (2 * Math.PI) / topGenres.length;
   const maxCount = topGenres[0]?.count || 1;
 
-  // Calculate points for the radar polygon
   const radarPoints = topGenres.map((genre, i) => {
     const angle = i * angleStep - Math.PI / 2;
     const normalizedScore = genre.count / maxCount;
@@ -265,7 +263,6 @@ function TasteDNAChart({ genres }: { genres: GenreData[] }) {
   );
 }
 
-// Genre Bar Component for Compact View
 const GenreBar = forwardRef<HTMLDivElement, { genre: GenreData; index: number; maxCount: number }>(
   ({ genre, index, maxCount }, ref) => {
     const percentage = (genre.count / maxCount) * 100;
@@ -302,14 +299,12 @@ const GenreBar = forwardRef<HTMLDivElement, { genre: GenreData; index: number; m
   }
 );
 
-// Score Distribution Graph Component
 function ScoreDistributionGraph({ scores }: { scores: { score: number; count: number }[] }) {
   const maxCount = Math.max(...scores.map(s => s.count), 1);
   const totalScored = scores.reduce((acc, s) => acc + s.count, 0);
   const dominantScore = scores.reduce((max, s) => s.count > max.count ? s : max, scores[0]);
   const avgScore = scores.reduce((acc, s) => acc + s.score * s.count, 0) / totalScored;
-  
-  // Score colors - gradient from low (red) to high (green/purple)
+
   const getScoreColor = (score: number) => {
     const colors: { [key: number]: string } = {
       1: '#ED4245', 2: '#E67E73', 3: '#F0B132', 4: '#99AAB5',
@@ -318,8 +313,7 @@ function ScoreDistributionGraph({ scores }: { scores: { score: number; count: nu
     };
     return colors[score] || '#5865F2';
   };
-  
-  // Sort by score descending for better visual flow (10 -> 1)
+
   const sortedScores = [...scores].sort((a, b) => b.score - a.score);
   
   return (
@@ -437,7 +431,6 @@ function ScoreDistributionGraph({ scores }: { scores: { score: number; count: nu
   );
 }
 
-// Clean Library Status Component
 interface LibraryStatusItem {
   label: string;
   value: number;
@@ -447,8 +440,7 @@ interface LibraryStatusItem {
 function LibraryStatusList({ stats }: { stats: LibraryStatusItem[] }) {
   const totalCount = stats.reduce((acc, s) => acc + s.value, 0);
   const maxCount = Math.max(...stats.map(s => s.value), 1);
-  
-  // Sort by value descending
+
   const sortedStats = [...stats].sort((a, b) => b.value - a.value);
   
   return (
@@ -489,13 +481,11 @@ function LibraryStatusList({ stats }: { stats: LibraryStatusItem[] }) {
   );
 }
 
-// Length Preference Visual Graph Component
 function LengthPreferenceGraph({ stats }: { stats: LengthData[] }) {
   const maxCount = Math.max(...stats.map(s => s.count), 1);
   const totalCount = stats.reduce((acc, s) => acc + s.count, 0);
   const dominant = stats.reduce((max, s) => s.count > max.count ? s : max, stats[0]);
-  
-  // Sort by count descending for better visual flow
+
   const sortedStats = [...stats].sort((a, b) => b.count - a.count);
   
   return (
@@ -607,11 +597,9 @@ function LengthPreferenceGraph({ stats }: { stats: LengthData[] }) {
   );
 }
 
-// Seasonal Timeline Component - Rebuilt with Grid Layout
 function SeasonalTimeline({ stats }: { stats: SeasonalData[] }) {
   const [selectedSeason, setSelectedSeason] = useState<string | null>(null);
-  
-  // Get the selected season data
+
   const getSelectedSeasonData = () => {
     if (!selectedSeason) return null;
     return stats.find(s => `${s.season}-${s.year}` === selectedSeason);
@@ -809,7 +797,6 @@ function SeasonalTimeline({ stats }: { stats: SeasonalData[] }) {
   );
 }
 
-// Genre Card Component for Tag Cloud View
 const GenreCard = forwardRef<HTMLDivElement, { genre: GenreData; index: number; maxCount: number }>(
   ({ genre, index, maxCount }, ref) => {
     const percentage = Math.round((genre.count / maxCount) * 100);
@@ -881,7 +868,6 @@ const GenreCard = forwardRef<HTMLDivElement, { genre: GenreData; index: number; 
   }
 );
 
-// Compact View Component
 const CompactView = forwardRef<HTMLDivElement, { genres: GenreData[]; maxCount: number }>(
   ({ genres, maxCount }, ref) => {
     const initialGenreCount = 8;
@@ -941,7 +927,6 @@ const CompactView = forwardRef<HTMLDivElement, { genres: GenreData[]; maxCount: 
   }
 );
 
-// Expanded View Component (Tag Cloud)
 const ExpandedView = forwardRef<HTMLDivElement, { genres: GenreData[]; maxCount: number }>(
   ({ genres, maxCount }, ref) => {
     return (

@@ -12,7 +12,6 @@ export default function Hero() {
 
   const totalPlaytimeHours = gamingStats ? Math.floor(gamingStats.totalPlaytime / 60) : 1247;
 
-  // Floating animation for the Now Watching card
   const floatVariants = {
     animate: {
       y: [0, -20, 0],

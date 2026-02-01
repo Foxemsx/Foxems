@@ -7,7 +7,6 @@ export default function BackToTop() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show button after scrolling down 300px
       setIsVisible(window.scrollY > 300);
     };
 

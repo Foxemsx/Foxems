@@ -22,7 +22,6 @@ function TierRow({ tier, delay }: { tier: TierData; delay: number }) {
   const [isExpanded, setIsExpanded] = useState(true);
   const colors = TIER_COLORS[tier.name];
 
-  // Get description based on tier name
   const getTierDescription = (tierName: string): string => {
     const descriptions: Record<string, string> = {
       'S+': 'Masterpiece',
@@ -136,7 +135,6 @@ export default function TierDisplay() {
   const { data: top10 } = useTop10();
   const { data: tiers } = useTiers();
 
-  // Build search index for all anime in tiers
   const searchResults = useMemo(() => {
     if (!searchQuery.trim() || !tiers) return [];
     

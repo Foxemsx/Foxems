@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Heart, Github, Twitter, MessageCircle, Gamepad2, BarChart3, Trophy, Layers } from 'lucide-react';
 import { useProfile } from '../hooks/useApiData';
 
-// Steam icon component
 function SteamIcon({ size = 18, className = '' }: { size?: number; className?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>

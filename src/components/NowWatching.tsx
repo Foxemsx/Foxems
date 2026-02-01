@@ -11,12 +11,10 @@ function formatTime(seconds: number): string {
 export default function NowWatching() {
   const { data: watching, isLoading } = useNowWatching();
 
-  // Don't render anything if not watching and not loading
   if (!isLoading && !watching?.isWatching) {
     return null;
   }
 
-  // Calculate progress percentage
   const progressPercent = watching?.progress && watching.progress.duration > 0
     ? Math.round((watching.progress.current / watching.progress.duration) * 100)
     : 0;

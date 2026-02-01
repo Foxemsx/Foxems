@@ -4,7 +4,6 @@ import { Gamepad2, Clock, Trophy, Search, ArrowUpDown, Library, ArrowUpRight, Ca
 import { useGamingStats } from '../hooks/useApiData';
 import SectionReveal from './SectionReveal';
 
-// Filter types
 const SORT_OPTIONS = [
   { label: 'Most Played', value: 'playtime', icon: Clock },
   { label: 'Alphabetical', value: 'alphabetical', icon: ArrowUpDown },
@@ -14,14 +13,12 @@ const SORT_OPTIONS = [
 type SortOption = (typeof SORT_OPTIONS)[number]['value'];
 type ViewMode = 'comfortable' | 'compact';
 
-// Format playtime to hours
 function formatHours(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   if (hours < 1) return `${minutes}m`;
   return `${hours.toLocaleString()}h`;
 }
 
-// Format date to readable format
 function formatLastPlayed(dateString?: string): string {
   if (!dateString) return 'Never played';
   const date = new Date(dateString);
@@ -36,7 +33,6 @@ function formatLastPlayed(dateString?: string): string {
   return `${Math.floor(diffDays / 365)} years ago`;
 }
 
-// Get most recent games
 function getRecentGames(games: any[], count: number) {
   return [...games]
     .filter((g) => g.lastPlayed)
@@ -53,21 +49,17 @@ export default function GamingLibrary() {
   const [viewMode, setViewMode] = useState<ViewMode>('comfortable');
   const [visibleCount, setVisibleCount] = useState(GAMES_PER_BATCH);
 
-  // Prepare data - must be before any early returns to maintain hook order
   const games = stats?.games || [];
   const recentGames = getRecentGames(games, 3);
   const totalHours = Math.floor((stats?.totalPlaytime || 0) / 60);
 
-  // Reset visible count when search or sort changes
   useMemo(() => {
     setVisibleCount(GAMES_PER_BATCH);
   }, [searchQuery, sortBy]);
 
-  // Filter and sort games - must be before any early returns
   const filteredAndSortedGames = useMemo(() => {
     let filtered = games;
 
-    // Search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = games.filter(
@@ -77,7 +69,6 @@ export default function GamingLibrary() {
       );
     }
 
-    // Sort
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
         case 'playtime':
@@ -95,7 +86,6 @@ export default function GamingLibrary() {
     });
   }, [games, searchQuery, sortBy]);
 
-  // Slice games for pagination
   const displayedGames = filteredAndSortedGames.slice(0, visibleCount);
   const hasMoreGames = visibleCount < filteredAndSortedGames.length;
   const remainingCount = filteredAndSortedGames.length - visibleCount;

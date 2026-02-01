@@ -76,7 +76,6 @@ const itemVariants = {
   }),
 };
 
-// Animated Hamburger Icon Component
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
   return (
     <div className="relative w-6 h-6 flex flex-col justify-center items-center">
@@ -115,14 +114,12 @@ export default function Navbar() {
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
   const lastFocusableRef = useRef<HTMLAnchorElement>(null);
 
-  // Handle scroll
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -134,7 +131,6 @@ export default function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  // Handle Escape key to close menu
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && mobileMenuOpen) {
@@ -145,14 +141,12 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [mobileMenuOpen]);
 
-  // Handle click outside to close
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setMobileMenuOpen(false);
     }
   }, []);
 
-  // Focus trap
   useEffect(() => {
     if (mobileMenuOpen && firstFocusableRef.current) {
       firstFocusableRef.current.focus();

@@ -16,21 +16,16 @@ export default function SidebarNavigation() {
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const targetSectionRef = useRef<string | null>(null);
 
-  // Detect currently visible section based on viewport position
   const detectActiveSection = useCallback(() => {
     const viewportCenter = window.innerHeight / 2;
     let closestSection = SECTIONS[0].id;
     let closestDistance = Infinity;
-    
-    // Find the section closest to the center of viewport
     for (const section of SECTIONS) {
       const element = document.getElementById(section.id);
       if (element) {
         const rect = element.getBoundingClientRect();
         const sectionCenter = rect.top + rect.height / 2;
         const distance = Math.abs(sectionCenter - viewportCenter);
-        
-        // Only consider sections that are at least partially visible
         if (rect.bottom > 0 && rect.top < window.innerHeight) {
           if (distance < closestDistance) {
             closestDistance = distance;
@@ -45,18 +40,13 @@ export default function SidebarNavigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // During programmatic scroll, keep the target section active
       if (isProgrammaticScroll.current && targetSectionRef.current) {
-        // Clear existing timeout
         if (scrollTimeoutRef.current) {
           clearTimeout(scrollTimeoutRef.current);
         }
-        
-        // Wait for scroll to stabilize before re-enabling detection
         scrollTimeoutRef.current = setTimeout(() => {
           isProgrammaticScroll.current = false;
           targetSectionRef.current = null;
-          // After programmatic scroll ends, detect and set the actual section
           setActiveSection(detectActiveSection());
         }, 200);
         
@@ -81,17 +71,12 @@ export default function SidebarNavigation() {
     const targetId = href.replace('#', '');
     const element = document.getElementById(targetId);
     if (element) {
-      // Clear any existing timeout
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
         scrollTimeoutRef.current = null;
       }
-      
-      // Set programmatic scroll mode and lock the target section
       isProgrammaticScroll.current = true;
       targetSectionRef.current = targetId;
-      
-      // Immediately update active section to prevent flicker
       setActiveSection(targetId);
       
       element.scrollIntoView({ behavior: 'smooth' });
