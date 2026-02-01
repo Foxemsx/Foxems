@@ -1,14 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { Profile, AnimeStats, TierAnime, TierData, GamingStats, WebsiteData, NowWatching } from '../types/api';
 
-const ELECTRON_API_PORT = 8765;
-const ELECTRON_API_URL = `http://localhost:${ELECTRON_API_PORT}`;
-
-// Track if local API is available to avoid spamming failed requests
-let localApiAvailable: boolean | null = null;
-let localApiLastCheck = 0;
-const LOCAL_API_CHECK_INTERVAL = 30000; // Only retry local API every 30 seconds
-
 async function fetchWebsiteData(): Promise<WebsiteData> {
   const res = await fetch('/data.json');
   if (!res.ok) throw new Error('Failed to load data');
@@ -70,56 +62,23 @@ export function useGamingStats() {
   });
 }
 
-// Vercel Cloud API URL (same domain for production, configurable for dev)
-const VERCEL_API_URL = import.meta.env.VERCEL_URL 
-  ? `https://${import.meta.env.VERCEL_URL}` 
-  : (typeof window !== 'undefined' ? window.location.origin : '');
+// Vercel Cloud API URL (same domain for production)
+const VERCEL_API_URL = typeof window !== 'undefined' ? window.location.origin : '';
 
 async function fetchNowWatching(): Promise<NowWatching> {
-  // Try 1: Vercel Cloud API (primary - works everywhere)
+  // Use Vercel Cloud API only - no localhost fallback needed with cloud sync
   try {
     const res = await fetch(`${VERCEL_API_URL}/api/now-watching`);
     if (!res.ok) throw new Error('Failed to fetch from Vercel API');
-    const data = await res.json();
-    // Only use cloud data if it's actually watching
-    if (data.isWatching) {
-      return data;
-    }
+    return res.json();
   } catch (error) {
-    console.debug('Vercel API unavailable:', error);
+    console.debug('Now watching API error:', error);
+    // Return not watching state on error
+    return {
+      isWatching: false,
+      timestamp: new Date().toISOString(),
+    };
   }
-
-  // Try 2: Local FoxCLI App (only if we haven't recently failed)
-  const now = Date.now();
-  const shouldCheckLocal = localApiAvailable !== false || 
-                           (now - localApiLastCheck) > LOCAL_API_CHECK_INTERVAL;
-  
-  if (shouldCheckLocal) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000); // 2s timeout
-      
-      const res = await fetch(`${ELECTRON_API_URL}/api/now-watching`, {
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      
-      if (!res.ok) throw new Error('Failed to fetch from Electron API');
-      localApiAvailable = true;
-      localApiLastCheck = now;
-      return res.json();
-    } catch {
-      localApiAvailable = false;
-      localApiLastCheck = now;
-      // Don't log on every poll - only log once when it becomes unavailable
-    }
-  }
-
-  // Fallback: Not watching
-  return {
-    isWatching: false,
-    timestamp: new Date().toISOString(),
-  };
 }
 
 export function useNowWatching() {
