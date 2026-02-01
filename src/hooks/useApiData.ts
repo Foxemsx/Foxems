@@ -65,23 +65,39 @@ export function useGamingStats() {
   });
 }
 
+// Vercel Cloud API URL (same domain for production, configurable for dev)
+const VERCEL_API_URL = import.meta.env.VERCEL_URL 
+  ? `https://${import.meta.env.VERCEL_URL}` 
+  : window.location.origin;
+
 async function fetchNowWatching(): Promise<NowWatching> {
+  // Try 1: Vercel Cloud API (primary - works everywhere)
+  try {
+    const res = await fetch(`${VERCEL_API_URL}/api/now-watching`);
+    if (!res.ok) throw new Error('Failed to fetch from Vercel API');
+    const data = await res.json();
+    // Only use cloud data if it's actually watching
+    if (data.isWatching) {
+      return data;
+    }
+  } catch (error) {
+    console.debug('Vercel API unavailable:', error);
+  }
+
+  // Try 2: Local FoxCLI App (works when running locally)
   try {
     const res = await fetch(`${ELECTRON_API_URL}/api/now-watching`);
-    if (!res.ok) throw new Error('Failed to fetch now watching from Electron API');
+    if (!res.ok) throw new Error('Failed to fetch from Electron API');
     return res.json();
   } catch {
-    try {
-      const res = await fetch('/api/now-watching');
-      if (!res.ok) throw new Error('Failed to fetch now watching from mock API');
-      return res.json();
-    } catch {
-      return {
-        isWatching: false,
-        timestamp: new Date().toISOString(),
-      };
-    }
+    console.debug('Local FoxCLI unavailable');
   }
+
+  // Fallback: Not watching
+  return {
+    isWatching: false,
+    timestamp: new Date().toISOString(),
+  };
 }
 
 export function useNowWatching() {
