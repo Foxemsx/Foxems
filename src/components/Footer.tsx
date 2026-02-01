@@ -85,16 +85,6 @@ export default function Footer() {
               Connect
             </h3>
             <div className="flex gap-3">
-              {profile?.socials?.github && (
-                <a
-                  href={profile.socials.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#FF6B35]/20 flex items-center justify-center transition-all border border-white/10 hover:border-[#FF6B35]/50"
-                >
-                  <Github size={18} className="text-[var(--text-secondary)] hover:text-[#FF6B35] transition-colors" />
-                </a>
-              )}
               {profile?.socials?.twitter && (
                 <a
                   href={profile.socials.twitter}
