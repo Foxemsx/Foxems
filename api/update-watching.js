@@ -9,6 +9,42 @@ const setCorsHeaders = (res) => {
   return res;
 };
 
+// Simple Redis helper using Upstash REST API
+const redis = {
+  async get(key) {
+    const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+    const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+    if (!url || !token) return null;
+    
+    try {
+      const response = await fetch(`${url}/get/${key}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      return data.result ? JSON.parse(data.result) : null;
+    } catch (e) {
+      console.error('Redis GET error:', e);
+      return null;
+    }
+  },
+  
+  async set(key, value, ttlSeconds = 300) {
+    const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+    const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+    if (!url || !token) return false;
+    
+    try {
+      const response = await fetch(`${url}/set/${key}/${encodeURIComponent(JSON.stringify(value))}/ex/${ttlSeconds}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.ok;
+    } catch (e) {
+      console.error('Redis SET error:', e);
+      return false;
+    }
+  }
+};
+
 export default async function handler(req, res) {
   // ALWAYS set CORS headers FIRST, before any other code
   setCorsHeaders(res);
@@ -19,50 +55,31 @@ export default async function handler(req, res) {
   }
 
   try {
-
     // GET - Return current watching data
     if (req.method === 'GET') {
-      let data = null;
+      const data = await redis.get('now-watching');
       
-      try {
-        // Try to get from KV if available
-        if (process.env.VERCEL_KV_REST_API_URL && process.env.VERCEL_KV_REST_API_TOKEN) {
-          const { kv } = await import('@vercel/kv');
-          data = await kv.get('now-watching');
-        }
-      } catch (kvError) {
-        console.error('KV error:', kvError);
+      if (data) {
+        return res.status(200).json(data);
       }
       
       // Fallback to default
-      if (!data) {
-        data = {
-          isWatching: false,
-          timestamp: new Date().toISOString(),
-          title: null,
-          episode: null,
-          progress: null
-        };
-      }
-      
-      return res.status(200).json(data);
+      return res.status(200).json({
+        isWatching: false,
+        timestamp: new Date().toISOString(),
+        title: null,
+        episode: null,
+        progress: null
+      });
     }
 
     // POST - Update watching data
     if (req.method === 'POST') {
-      // Debug logging
-      console.log('POST request received', {
-        body: req.body,
-        headers: Object.keys(req.headers),
-        hasAuth: !!req.headers['authorization']
-      });
-
       const apiKey = req.headers['authorization']?.replace('Bearer ', '');
       const expectedKey = process.env.FOXCLI_API_KEY;
       
       // Verify API key if configured
       if (expectedKey && apiKey !== expectedKey) {
-        console.log('Auth failed - expected:', expectedKey?.slice(0, 10) + '...', 'got:', apiKey?.slice(0, 10) + '...');
         return res.status(401).json({ error: 'Invalid or missing API key' });
       }
 
@@ -83,21 +100,14 @@ export default async function handler(req, res) {
         source: body.source || 'cloud'
       };
 
-      // Store in KV if available
-      if (process.env.VERCEL_KV_REST_API_URL && process.env.VERCEL_KV_REST_API_TOKEN) {
-        try {
-          const { kv } = await import('@vercel/kv');
-          await kv.set('now-watching', data, { ex: 300 }); // Expire after 5 minutes
-        } catch (kvError) {
-          console.error('KV store error:', kvError);
-        }
-      }
-
-      console.log('Data saved:', { title: data.title, isWatching: data.isWatching });
+      // Store in Redis (expires after 5 minutes)
+      const saved = await redis.set('now-watching', data, 300);
+      
+      console.log('Data saved:', { title: data.title, isWatching: data.isWatching, saved });
 
       return res.status(200).json({ 
         success: true, 
-        message: 'Updated successfully',
+        message: saved ? 'Updated and stored' : 'Updated (no storage configured)',
         data 
       });
     }
@@ -106,7 +116,6 @@ export default async function handler(req, res) {
     
   } catch (error) {
     console.error('Unhandled error:', error);
-    // CORS headers are already set, so error response will have them
     return res.status(500).json({ error: 'Internal server error', message: error.message });
   }
 }
