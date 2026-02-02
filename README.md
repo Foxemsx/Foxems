@@ -4,7 +4,7 @@
 
 # <span style="font-size: 72px; font-weight: 900;"><span style="color: #ffffff;">FOX</span><span style="background: linear-gradient(to right, #c084fc, #ec4899, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">EMS</span></span>
 
-### **Leveling Up Every Day**
+### **Leveling Up Every Day 🚀**
 
 [![Website](https://img.shields.io/badge/Live%20Site-foxems.dev-5865F2?style=for-the-badge)](https://foxems.dev)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
@@ -16,43 +16,42 @@
 
 ---
 
-##  What is Foxems?
+## 🦊 What is Foxems?
 
-**Foxems is me** - my personal brand and digital identity. This is my living, breathing dashboard that tracks my journey through anime, gaming, and development. This isn't just a portfolio; it's a real-time reflection of my digital life.
+**Foxems is me** — my personal brand and digital identity. This is my living, breathing dashboard that tracks my journey through anime, gaming, and development. This isn't just a portfolio; it's a real-time reflection of my digital life.
 
 > *"I track my anime journey, gaming achievements, and development projects. Explore my stats and see what I'm up to."*
 
 ---
 
-##  Features
+## 🎭 Features
 
-###  Hero Section
-- **Dynamic Now Watching Card** - Floats in with smooth animations showing currently watching anime
-- **Live Stats Dashboard** - Gaming hours, anime count, and days watched at a glance
-- **Epic Gradient Design** - Purple-to-pink-to-orange gradients with glassmorphism effects
+### 🏰 Hero Section
+- **Dynamic Now Watching Card** — Floats in with smooth animations showing currently watching anime
+- **Live Stats Dashboard** — Gaming hours, anime count, and days watched at a glance
+- **Epic Gradient Design** — Purple-to-pink-to-orange gradients with glassmorphism effects
 
-###  Anime Stats
-- **MAL Integration** - Real-time stats from MyAnimeList (180+ anime tracked)
-- **Genre Distribution** - Visual breakdown of preferred genres (Action, Fantasy, Shounen...)
-- **Top 10 & Tier Lists** - S-F tier rankings with beautiful card layouts
-- **Achievement System** - Gamified badges for milestones
+### ⛩️ Anime Stats
+- **MAL Integration** — Real-time stats from MyAnimeList (180+ anime tracked)
+- **Genre Distribution** — Visual breakdown of preferred genres (Action, Fantasy, Shounen...)
+- **Top 10 & Tier Lists** — S-F tier rankings with beautiful card layouts
+- **Achievement System** — Gamified badges for milestones
 
-###  Gaming Library
-- **Steam Integration** - Live library stats and playtime tracking (1,200+ hours)
-- **Game Cards** - Beautiful cover art displays with hover effects
-- **Library Statistics** - Total games, recent playtime, most played
-- **Quick Deal Finder** - Built-in price comparison
+### 🕹️ Gaming Library
+- **Steam Integration** — Live library stats and playtime tracking (1,200+ hours)
+- **Game Cards** — Beautiful cover art displays with hover effects
+- **Library Statistics** — Total games, recent playtime, most played
 
-###  Design Highlights
-- **Dark Theme** - Deep `#0F1014` background with subtle gradients
-- **Framer Motion** - Smooth 60fps animations throughout
-- **Responsive** - Perfect on desktop, tablet, and mobile
-- **Glassmorphism** - Backdrop blur effects and subtle borders
-- **Interactive Elements** - Hover states, micro-interactions, scroll reveals
+### 🎨 Design Highlights
+- **Dark Theme** — Deep `#0F1014` background with subtle gradients
+- **Framer Motion** — Smooth 60fps animations throughout
+- **Responsive** — Perfect on desktop, tablet, and mobile
+- **Glassmorphism** — Backdrop blur effects and subtle borders
+- **Interactive Elements** — Hover states, micro-interactions, scroll reveals
 
 ---
 
-##  Tech Stack
+## ⚡ Tech Stack
 
 | Category | Technology |
 |----------|------------|
@@ -66,7 +65,7 @@
 
 ---
 
-##  Architecture
+## 🏗️ Architecture
 
 ```
 src/
@@ -91,15 +90,15 @@ src/
 
 ---
 
-##  API Integrations
+## 🔌 API Integrations
 
-### MyAnimeList
+### ⛩️ MyAnimeList
 - User statistics
 - Currently watching
 - Anime list & ratings
 - Genre preferences
 
-### Steam
+### 🎮 Steam
 - Library statistics
 - Total playtime
 - Recently played
@@ -107,9 +106,9 @@ src/
 
 ---
 
-##  Design Philosophy
+## 🎭 Design Philosophy
 
-### Colors
+### 🎨 Colors
 ```css
 --bg-primary: #0F1014;
 --bg-secondary: #15171C;
@@ -118,12 +117,12 @@ src/
 --text-secondary: #8B8D93;
 ```
 
-### Typography
+### ✍️ Typography
 - **Headings**: Inter (Bold, Black)
 - **Body**: System font stack
 - **Accents**: Gradient text effects
 
-### Animations
+### 🎬 Animations
 - Page transitions: 0.3s ease
 - Hover effects: scale(1.02)
 - Floating cards: 6s infinite loop
@@ -131,7 +130,7 @@ src/
 
 ---
 
-##  Key Stats
+## 📊 Key Stats
 
 | Metric | Count |
 |--------|-------|
@@ -143,7 +142,7 @@ src/
 
 ---
 
-##  Connect
+## 🌐 Connect
 
 <div align="center">
 
@@ -157,7 +156,7 @@ src/
 
 <div align="center">
 
-**Made with**  **by Foxems**
+**Made with 🦊 by Foxems**
 
 *Powered by [FoxCLI](https://github.com/Foxems/foxcli)*
 
