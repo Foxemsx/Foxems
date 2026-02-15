@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-15T21:00:07.071Z",
+  "lastUpdated": "2026-02-15T21:13:07.141Z",
   "profile": {
     "displayName": "Foxems",
     "bio": "",
@@ -11,14 +11,14 @@
       "userStats": {
         "username": "Foxems",
         "total_anime": 182,
-        "completed": 95,
+        "completed": 96,
         "watching": 11,
-        "plan_to_watch": 75,
+        "plan_to_watch": 74,
         "on_hold": 0,
         "dropped": 1,
-        "total_episodes": 2217,
-        "days_watched": 37.4,
-        "mean_score": 8
+        "total_episodes": 2229,
+        "days_watched": 37.6,
+        "mean_score": 8.02
       },
       "genres": [
         {
@@ -299,13 +299,13 @@
             {
               "id": 59229,
               "title": "Enen no Shouboutai: San no Shou Part 2",
-              "image": "https://cdn.myanimelist.net/images/anime/1508/152472l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1508/152472l.webp",
               "score": 0
             },
             {
               "id": 55825,
               "title": "Jigokuraku 2nd Season",
-              "image": "https://cdn.myanimelist.net/images/anime/1772/154456l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1772/154456l.jpg",
               "score": 0
             }
           ]
@@ -393,7 +393,7 @@
             {
               "id": 51818,
               "title": "Enen no Shouboutai: San no Shou",
-              "image": "https://cdn.myanimelist.net/images/anime/1527/146836l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1527/146836l.webp",
               "score": 9
             },
             {
@@ -489,7 +489,7 @@
             {
               "id": 53889,
               "title": "Ao no Exorcist: Shimane Illuminati-hen",
-              "image": "https://cdn.myanimelist.net/images/anime/1239/140803l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1239/140803l.jpg",
               "score": 0
             }
           ]
@@ -517,7 +517,7 @@
             {
               "id": 53865,
               "title": "Yozakura-san Chi no Daisakusen",
-              "image": "https://cdn.myanimelist.net/images/anime/1674/143715l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1674/143715l.jpg",
               "score": 9
             }
           ]
@@ -633,7 +633,7 @@
             {
               "id": 53998,
               "title": "Bleach: Sennen Kessen-hen - Ketsubetsu-tan",
-              "image": "https://cdn.myanimelist.net/images/anime/1164/138058l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1164/138058l.webp",
               "score": 10
             },
             {
@@ -645,7 +645,7 @@
             {
               "id": 52991,
               "title": "Sousou no Frieren",
-              "image": "https://cdn.myanimelist.net/images/anime/1015/138006l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg",
               "score": 0
             }
           ]
@@ -667,7 +667,7 @@
             {
               "id": 52347,
               "title": "Shangri-La Frontier: Kusoge Hunter, Kamige ni Idoman to su",
-              "image": "https://cdn.myanimelist.net/images/anime/1500/139931l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1500/139931l.jpg",
               "score": 8
             },
             {
@@ -705,7 +705,7 @@
             {
               "id": 50265,
               "title": "Spy x Family",
-              "image": "https://cdn.myanimelist.net/images/anime/1441/122795l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg",
               "score": 10
             },
             {
@@ -755,7 +755,7 @@
             {
               "id": 41467,
               "title": "Bleach: Sennen Kessen-hen",
-              "image": "https://cdn.myanimelist.net/images/anime/1908/135431l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1908/135431l.webp",
               "score": 10
             },
             {
@@ -817,7 +817,7 @@
             {
               "id": 41025,
               "title": "Fumetsu no Anata e",
-              "image": "https://cdn.myanimelist.net/images/anime/1880/118484l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1880/118484l.jpg",
               "score": 10
             },
             {
@@ -905,13 +905,13 @@
             {
               "id": 40956,
               "title": "Enen no Shouboutai: Ni no Shou",
-              "image": "https://cdn.myanimelist.net/images/anime/1673/107657l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1673/107657l.webp",
               "score": 9
             },
             {
               "id": 39587,
               "title": "Re:Zero kara Hajimeru Isekai Seikatsu 2nd Season",
-              "image": "https://cdn.myanimelist.net/images/anime/1444/108005l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1444/108005l.webp",
               "score": 7
             },
             {
@@ -1045,7 +1045,7 @@
             {
               "id": 39597,
               "title": "Sword Art Online: Alicization - War of Underworld",
-              "image": "https://cdn.myanimelist.net/images/anime/1630/103417l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1630/103417l.webp",
               "score": 0
             }
           ]
@@ -1127,7 +1127,7 @@
             {
               "id": 37450,
               "title": "Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai",
-              "image": "https://cdn.myanimelist.net/images/anime/1301/93586l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/1301/93586l.webp",
               "score": 0
             },
             {
@@ -1149,7 +1149,7 @@
             {
               "id": 33506,
               "title": "Ao no Exorcist: Kyoto Fujouou-hen",
-              "image": "https://cdn.myanimelist.net/images/anime/5/85201l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/5/85201l.jpg",
               "score": 0
             },
             {
@@ -1177,7 +1177,7 @@
             {
               "id": 33486,
               "title": "Boku no Hero Academia 2nd Season",
-              "image": "https://cdn.myanimelist.net/images/anime/12/85221l.jpg",
+              "image": "https://cdn.myanimelist.net/images/anime/12/85221l.webp",
               "score": 9
             }
           ]
@@ -1297,7 +1297,7 @@
             {
               "id": 29803,
               "title": "Overlord",
-              "image": "https://cdn.myanimelist.net/images/anime/1945/136600l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1945/136600l.jpg",
               "score": 7
             },
             {
@@ -1335,7 +1335,7 @@
             {
               "id": 23755,
               "title": "Nanatsu no Taizai",
-              "image": "https://cdn.myanimelist.net/images/anime/8/65409l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/8/65409l.jpg",
               "score": 0
             }
           ]
@@ -1389,7 +1389,7 @@
             {
               "id": 9253,
               "title": "Steins;Gate",
-              "image": "https://cdn.myanimelist.net/images/anime/1935/127974l.webp",
+              "image": "https://cdn.myanimelist.net/images/anime/1935/127974l.jpg",
               "score": 0
             }
           ]
@@ -1755,6 +1755,13 @@
             "id": 55888,
             "title": "Mushoku Tensei II: Isekai Ittara Honki Dasu Part 2",
             "image": "https://cdn.myanimelist.net/images/anime/1876/141251l.webp",
+            "score": 10,
+            "status": "completed"
+          },
+          {
+            "id": 48569,
+            "title": "86 Part 2",
+            "image": "https://cdn.myanimelist.net/images/anime/1321/117508l.jpg",
             "score": 10,
             "status": "completed"
           }
