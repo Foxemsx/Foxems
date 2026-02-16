@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Tv, Gamepad2, BarChart3, X, Home, Sparkles, Github } from 'lucide-react';
+import { Tv, Gamepad2, BarChart3, X, Home, Sparkles, Github, FolderKanban } from 'lucide-react';
 
 const NAV_LINKS = [
   { label: 'Home', href: '#', icon: Home },
+  { label: 'Projects', href: '#projects', icon: FolderKanban },
   { label: 'Anime Stats', href: '#anime-stats', icon: Tv },
   { label: 'Tier List', href: '#tier-list', icon: BarChart3 },
   { label: 'Gaming', href: '#gaming-library', icon: Gamepad2 },

@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Projects from './components/Projects';
 import AnimeStats from './components/AnimeStats';
 import TierDisplay from './components/TierDisplay';
 import GamingLibrary from './components/GamingLibrary';
@@ -25,6 +26,7 @@ function App() {
         <Navbar />
         <main className="flex-grow">
            <Hero />
+           <Projects />
            <AnimeStats />
            <TierDisplay />
            <GamingLibrary />
