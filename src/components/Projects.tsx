@@ -11,6 +11,10 @@ const projects = [
     icon: Code2,
     color: '#E74C3C',
     gradient: 'from-[#E74C3C] to-[#C0392B]',
+    media: {
+      type: 'video',
+      url: 'https://preview.redd.it/i-built-an-agentic-ide-that-gives-you-full-control-run-v0-fppi2cur74jg1.gif?width=1080&crop=smart&auto=webp&s=a6b529ef0fe141894faa0f4b2f1bf64a0ed75f83',
+    },
     stats: [
       { label: 'Lines of Code', value: '15,000+' },
       { label: 'AI Providers', value: '13' },
@@ -37,6 +41,10 @@ const projects = [
     icon: Globe,
     color: '#5865F2',
     gradient: 'from-[#5865F2] to-[#EB459E]',
+    media: {
+      type: 'image',
+      url: 'https://preview.redd.it/i-built-a-free-open-source-ai-powered-ide-13-providers-33-v0-49pi259oswig1.png?width=1080&crop=smart&auto=webp&s=5ee1f3216238aef8a16a53215413b6d26cfd9f15',
+    },
     stats: [
       { label: 'Framework', value: 'Next.js 14' },
       { label: 'Components', value: '20+' },
@@ -69,6 +77,26 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <div className="relative rounded-3xl bg-[#1E2028] border border-white/5 overflow-hidden hover:border-white/15 transition-all duration-300">
+        {/* Media Preview */}
+        {(project as any).media && (
+          <div className="relative h-48 overflow-hidden">
+            {(project as any).media.type === 'video' ? (
+              <img 
+                src={(project as any).media.url} 
+                alt={project.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img 
+                src={(project as any).media.url} 
+                alt={project.name}
+                className="w-full h-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1E2028] to-transparent" />
+          </div>
+        )}
+
         <div className={`relative h-32 bg-gradient-to-br ${project.gradient} p-6`}>
           <div className="absolute inset-0 bg-black/20" />
           
