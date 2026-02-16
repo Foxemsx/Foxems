@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Home, Tv, BarChart3, Gamepad2, ArrowDown } from 'lucide-react';
+import { Home, FolderKanban, Tv, BarChart3, Gamepad2, ArrowDown } from 'lucide-react';
 
 const SECTIONS = [
   { id: 'hero', label: 'Home', icon: Home, href: '#hero' },
+  { id: 'projects', label: 'Projects', icon: FolderKanban, href: '#projects', color: '#E74C3C' },
   { id: 'anime-stats', label: 'Anime Stats', icon: Tv, href: '#anime-stats' },
   { id: 'tier-list', label: 'Tier List', icon: BarChart3, href: '#tier-list' },
   { id: 'gaming-library', label: 'Gaming', icon: Gamepad2, href: '#gaming-library' },
