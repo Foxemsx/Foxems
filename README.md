@@ -2,7 +2,7 @@
 
 ![Hero Background](./public/hero-bg.webp)
 
-# <span style="font-size: 72px; font-weight: 900;"><span style="color: #ffffff;">FOX</span><span style="background: linear-gradient(to right, #c084fc, #ec4899, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">EMS</span></span>
+# **FOXEMS**
 
 ### **Leveling Up Every Day 🚀**
 
@@ -13,189 +13,266 @@
 [![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
+> *My personal dashboard tracking anime, gaming, and development journey.*
+
 </div>
 
 ---
 
-## 🦊 What is Foxems?
+## ⚠️ | Personal Project Notice
 
-**Foxems is me** — my personal brand and digital identity. This is my living, breathing dashboard that tracks my journey through anime, gaming, and development. This isn't just a portfolio; it's a real-time reflection of my digital life.
+| ⚡ Quick Info |
+|:---|
+| **This is a personal website** — highly customized for my specific use case. It will **NOT** work out of the box without significant modifications. |
 
-> *"I track my anime journey, gaming achievements, and development projects. Explore my stats and see what I'm up to."*
+### 🔧 What You Need to Change:
 
----
+| Item | Description | Location |
+|:---|:---|:---|
+| 🔑 **MyAnimeList Username** | Hardcoded in data export | `public/data.json` |
+| 🎮 **Steam Profile** | Requires your own Steam ID | `Navbar.tsx` |
+| 📁 **Data Source Paths** | File paths specific to my setup | `hooks/useApiData.ts` |
+| 🦊 **Personal Branding** | All Foxems branding | Entire codebase |
 
-## ⚠️ Personal Project Notice
-
-**This is a personal website highly customized for my specific use case.** It will **not** work out of the box for others without significant modifications.
-
-### What You Need to Change:
-- **MyAnimeList Username** — Hardcoded in the data export (`Foxems`)
-- **Steam Profile** — Requires your own Steam ID and API key
-- **Data Source Paths** — File paths are specific to my local FoxCLI setup
-- **Personal Branding** — All Foxems branding and content is personal
-
-If you want to use this code, you'll need to:
-1. Search for hardcoded values in the codebase and replace them with your own
-2. Set up your own data export system (or modify to use APIs directly)
-3. Update all personal content, images, and branding
-
-> *This repository is primarily for my own reference and backup. Feel free to use it as inspiration, but expect to do significant customization work.*
+> [!TIP]
+> This repository is primarily for **my own reference and backup**. Feel free to use it as inspiration, but expect to do significant customization work.
 
 ---
 
-## 🎭 Features
+## 🦊 | What is Foxems?
+
+**Foxems is me** — my personal brand and digital identity. This is my living, breathing dashboard that tracks my journey through anime, gaming, and development.
+
+| Feature | Description |
+|:---|:---|
+| 🏰 **Hero Section** | Dynamic now-watching card with smooth animations |
+| ⛩️ **Anime Stats** | MAL integration with genre distribution & tier lists |
+| 🕹️ **Gaming Library** | Steam integration with playtime tracking |
+| 🎨 **Modern Design** | Dark theme with glassmorphism & 60fps animations |
+
+---
+
+## 🎭 | Features
 
 ### 🏰 Hero Section
-- **Dynamic Now Watching Card** — Floats in with smooth animations showing currently watching anime
-- **Live Stats Dashboard** — Gaming hours, anime count, and days watched at a glance
-- **Epic Gradient Design** — Purple-to-pink-to-orange gradients with glassmorphism effects
+
+| Status | Feature | Description |
+|:---:|:---|:---|
+| ✅ | Dynamic Now Watching | Floats in with smooth animations |
+| ✅ | Live Stats Dashboard | Gaming hours, anime count at a glance |
+| ✅ | Epic Gradient Design | Purple-to-pink-to-orange glassmorphism |
 
 ### ⛩️ Anime Stats
-- **MAL Integration** — Real-time stats from MyAnimeList (180+ anime tracked)
-- **Genre Distribution** — Visual breakdown of preferred genres (Action, Fantasy, Shounen...)
-- **Top 10 & Tier Lists** — S-F tier rankings with beautiful card layouts
-- **Achievement System** — Gamified badges for milestones
+
+| Status | Feature | Description |
+|:---:|:---|:---|
+| ✅ | MAL Integration | Real-time stats from MyAnimeList |
+| ✅ | Genre Distribution | Visual breakdown of preferences |
+| ✅ | Top 10 & Tier Lists | S-F tier rankings |
+| ✅ | Achievement System | Gamified badges for milestones |
 
 ### 🕹️ Gaming Library
-- **Steam Integration** — Live library stats and playtime tracking (1,200+ hours)
-- **Game Cards** — Beautiful cover art displays with hover effects
-- **Library Statistics** — Total games, recent playtime, most played
+
+| Status | Feature | Description |
+|:---:|:---|:---|
+| ✅ | Steam Integration | Live library stats and playtime |
+| ✅ | Game Cards | Beautiful cover art with hover effects |
+| ✅ | Library Statistics | Total games, recent playtime |
 
 ### 🎨 Design Highlights
-- **Dark Theme** — Deep `#0F1014` background with subtle gradients
-- **Framer Motion** — Smooth 60fps animations throughout
-- **Responsive** — Perfect on desktop, tablet, and mobile
-- **Glassmorphism** — Backdrop blur effects and subtle borders
-- **Interactive Elements** — Hover states, micro-interactions, scroll reveals
+
+| Status | Feature | Description |
+|:---:|:---|:---|
+| ✅ | Dark Theme | Deep `#0F1014` background |
+| ✅ | Framer Motion | Smooth 60fps animations |
+| ✅ | Responsive | Perfect on desktop, tablet, mobile |
+| ✅ | Glassmorphism | Backdrop blur effects |
+| ✅ | Interactive | Hover states, micro-interactions |
 
 ---
 
-## ⚡ Tech Stack
+## 📸 | Preview
 
-| Category | Technology |
-|----------|------------|
-| **Framework** | React 18 + TypeScript |
-| **Build Tool** | Vite 5 |
-| **Styling** | Tailwind CSS 3.4 |
-| **Animations** | Framer Motion |
-| **Icons** | Lucide React |
-| **Data Fetching** | TanStack Query |
-| **API Integration** | MyAnimeList API + Steam Web API |
+<div align="center">
+  
+| Hero Section | Anime Stats |
+|:---:|:---:|
+| ![Hero](public/hero-bg.webp) | Coming Soon |
+
+</div>
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ | Architecture
 
 ```
 src/
-├── components/
-│   ├── Hero.tsx              # Epic landing section
-│   ├── AnimeStats.tsx        # MAL statistics dashboard
-│   ├── TierDisplay.tsx       # S-F tier list visualization
-│   ├── GamingLibrary.tsx     # Steam library showcase
-│   ├── Navbar.tsx            # Animated navigation
-│   ├── Footer.tsx            # Social links & quick nav
-│   ├── NowWatching.tsx       # Live anime status card
-│   ├── SidebarNavigation.tsx # Floating side nav dots
-│   ├── BackToTop.tsx         # Smooth scroll button
-│   └── SectionReveal.tsx     # Scroll animation wrapper
-├── hooks/
-│   └── useApiData.ts         # Data fetching hooks
-├── types/
-│   └── api.ts                # TypeScript definitions
-└── styles/
-    └── index.css             # Global styles + CSS vars
+├── 📦 components/
+│   ├── 🦊 Hero.tsx              # Epic landing section
+│   ├── 📊 AnimeStats.tsx        # MAL statistics dashboard
+│   ├── 📈 TierDisplay.tsx       # S-F tier list visualization
+│   ├── 🎮 GamingLibrary.tsx     # Steam library showcase
+│   ├── 🚀 Navbar.tsx            # Animated navigation
+│   ├── 📱 SidebarNavigation.tsx # Floating side nav dots
+│   └── ✨ SectionReveal.tsx     # Scroll animation wrapper
+├── ⚙️ hooks/
+│   └── 📡 useApiData.ts         # Data fetching hooks
+├── 🔧 types/
+│   └── 📝 api.ts                # TypeScript definitions
+└── 💅 styles/
+    └── 🎨 index.css             # Global styles + CSS vars
 ```
 
 ---
 
-## 🔌 API Integrations
+## ⚡ | Tech Stack
 
-### ⛩️ MyAnimeList
-- User statistics
-- Currently watching
-- Anime list & ratings
-- Genre preferences
+| Category | Technology | Version |
+|:---|:---|:---|
+| 🔲 **Framework** | React | 18 |
+| 🔷 **Language** | TypeScript | 5.0 |
+| ⚡ **Build Tool** | Vite | 5 |
+| 🎨 **Styling** | Tailwind CSS | 3.4 |
+| 🎬 **Animations** | Framer Motion | 10 |
+| 📦 **Icons** | Lucide React | 0.312 |
+| 📡 **Data Fetching** | TanStack Query | 5 |
+
+---
+
+## 🔌 | API Integrations
+
+### ⛩️ MyAnimeList (MAL)
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  ✓ User statistics                                     │
+│  ✓ Currently watching                                  │
+│  ✓ Anime list & ratings                                │
+│  ✓ Genre preferences                                    │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 🎮 Steam
-- Library statistics
-- Total playtime
-- Recently played
-- Owned games count
 
----
-
-## 🎭 Design Philosophy
-
-### 🎨 Colors
-```css
---bg-primary: #0F1014;
---bg-secondary: #15171C;
---accent-primary: #5865F2;
---text-primary: #ffffff;
---text-secondary: #8B8D93;
+```
+┌─────────────────────────────────────────────────────────┐
+│  ✓ Library statistics                                   │
+│  ✓ Total playtime                                      │
+│  ✓ Recently played                                     │
+│  ✓ Owned games count                                   │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### ✍️ Typography
-- **Headings**: Inter (Bold, Black)
-- **Body**: System font stack
-- **Accents**: Gradient text effects
+---
 
-### 🎬 Animations
-- Page transitions: 0.3s ease
-- Hover effects: scale(1.02)
-- Floating cards: 6s infinite loop
-- Stagger reveals: 0.1s delay per item
+## 🎨 | Design Philosophy
+
+### Colors
+```
+┌────────────────────────────────────────────────────────┐
+│  🖤 bg-primary:      #0F1014                         │
+│  💜 bg-secondary:    #15171C                         │
+│  💙 accent-primary:  #5865F2                         │
+│  🤍 text-primary:    #ffffff                         │
+│  💬 text-secondary: #8B8D93                         │
+└────────────────────────────────────────────────────────┘
+```
+
+### Typography
+```
+┌────────────────────────────────────────────────────────┐
+│  📝 Headings:     Inter (Bold, Black)                 │
+│  📄 Body:         System font stack                    │
+│  ✨ Accents:      Gradient text effects                │
+└────────────────────────────────────────────────────────┘
+```
+
+### Animations
+```
+┌────────────────────────────────────────────────────────┐
+│  🎬 Page transitions:  0.3s ease                      │
+│  🖱️  Hover effects:     scale(1.02)                  │
+│  🌊 Floating cards:    6s infinite loop               │
+│  ⏱️  Stagger reveals:  0.1s delay per item           │
+└────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 📊 Key Stats
-
-| Metric | Count |
-|--------|-------|
-| **Anime Tracked** | 180+ series |
-| **Anime Watched** | 37+ days |
-| **Gaming Hours** | 1,247+ hours |
-| **Steam Games** | 150+ titles |
-| **Lines of Code** | 3,500+ |
-
----
-
-## 🌐 Connect
+## 📊 | Key Stats
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/GitHub-@Foxems-181717?style=flat-square&logo=github)](https://github.com/Foxems)
-[![Steam](https://img.shields.io/badge/Steam-Foxemss-1b2838?style=flat-square&logo=steam)](https://steamcommunity.com/id/Foxemss/)
-[![MAL](https://img.shields.io/badge/MAL-Foxems-2E51A2?style=flat-square&logo=myanimelist)](https://myanimelist.net/profile/Foxems)
+```
+     ╔═══════════════════════════════════════════════════╗
+     ║     📈 Project Statistics                      ║
+     ╠═══════════════════════════════════════════════════╣
+     ║  📺 Anime Tracked     ➜    180+ series          ║
+     ║  ⏰ Time Watched     ➜    37+ days              ║
+     ║  🎮 Gaming Hours     ➜    1,200+ hours          ║
+     ║  🎫 Steam Games      ➜    150+ titles           ║
+     ║  💻 Lines of Code    ➜    3,500+                ║
+     ╚═══════════════════════════════════════════════════╝
+```
 
 </div>
 
 ---
 
-## 📝 License
+## 🌐 | Connect
 
-This project is licensed under the **MIT License** — see the [LICENSE](../LICENSE) file for details.
+<div align="center">
 
-### What MIT License Means:
-- ✅ You can use this code for free, forever
-- ✅ You can modify it
-- ✅ You can distribute it
-- ✅ You can use it in commercial projects
-- ✅ Private use is allowed
-- ✅ You must include the license and copyright notice
-- ⚠️ You can't hold the author liable
-- ⚠️ There's no warranty
+| | |
+|:---:|:---:|
+| 🐙 **GitHub** | [![][GitHub badge]](https://github.com/Foxems) |
+| 🎮 **Steam** | [![][Steam badge]](https://steamcommunity.com/id/Foxemss/) |
+| ⛩️ **MAL** | [![][MAL badge]](https://myanimelist.net/profile/Foxems) |
 
-**Note**: While the license allows reuse, this codebase contains personal configurations and hardcoded values that require significant customization to work for others.
+[GitHub badge]: https://img.shields.io/badge/GitHub-@Foxems-181717?style=for-the-badge&logo=github
+[Steam badge]: https://img.shields.io/badge/Steam-Foxemss-1b2838?style=for-the-badge&logo=steam
+[MAL badge]: https://img.shields.io/badge/MAL-Foxems-2E51A2?style=for-the-badge&logo=myanimelist
+
+</div>
+
+---
+
+## 📝 | License
+
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**MIT License** — See the [LICENSE](../LICENSE) file for details
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  ✅ Use this code for free, forever                    │
+│  ✅ Modify it                                          │
+│  ✅ Distribute it                                      │
+│  ✅ Use in commercial projects                         │
+│  ✅ Private use is allowed                             │
+│  ⚠️  Include license and copyright notice             │
+│  ⚠️  Can't hold the author liable                     │
+│  ⚠️  No warranty                                      │
+└─────────────────────────────────────────────────────────┘
+```
+
+> [!NOTE]
+> While the license allows reuse, this codebase contains personal configurations and hardcoded values that require significant customization to work for others.
+
+</div>
 
 ---
 
 <div align="center">
 
-**Made with 🦊 by Foxems**
+**Made with** 🦊 **and** ☕
 
 *Powered by [FoxCLI](https://github.com/Foxems/foxcli)*
+
+---
+
+⭐ Star this repo if you found it useful!
 
 </div>
