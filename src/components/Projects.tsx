@@ -75,7 +75,6 @@ function CompactProjectCard({ project, isExpanded, onToggle }: {
 }) {
   return (
     <motion.div
-      layout
       onClick={onToggle}
       className={`relative cursor-pointer group ${isExpanded ? 'col-span-1 sm:col-span-2 lg:col-span-2' : ''}`}
       initial={{ opacity: 0, y: 20 }}
@@ -83,8 +82,9 @@ function CompactProjectCard({ project, isExpanded, onToggle }: {
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        layout
-        className={`relative rounded-2xl bg-[#1E2028] border border-white/5 overflow-hidden transition-all duration-300 ${
+        layoutId={`project-card-${project.id}`}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        className={`relative rounded-2xl bg-[#1E2028] border border-white/5 overflow-hidden transition-colors duration-300 ${
           isExpanded ? 'shadow-2xl shadow-black/50 border-white/20' : 'hover:border-white/10 hover:shadow-lg'
         }`}
       >
@@ -143,12 +143,12 @@ function CompactProjectCard({ project, isExpanded, onToggle }: {
         </div>
 
         {/* Expanded View */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {isExpanded && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
             >
               {/* Close Button */}
