@@ -12,7 +12,7 @@ function NothingCard({ isExpanded, onToggle, className = '' }: { isExpanded: boo
   const wordTimingsRef = useRef<{ word: string; startTime: number; endTime: number }[]>([]);
 
   const narratorLines = [
-    "Congratulations. You have successfully clicked on nothing. You are now viewing detailed information about absolute nothingness. This project took three weeks to build, four seconds to understand, and will leave you with zero practical skills.",
+    "Congratulations. You have successfully clicked on nothing. You are now viewing detailed information about absolute nothingness. This project took one day to build, four seconds to understand, and will leave you with zero practical skills.",
   ];
 
   // Calculate word timings based on average speech rate (~150 WPM = 2.5 words/sec)
