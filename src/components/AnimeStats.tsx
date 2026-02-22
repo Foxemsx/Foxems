@@ -1,6 +1,6 @@
-import { useState, forwardRef } from 'react';
+import { useState, useMemo, useEffect, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Film, Star, BarChart3, TrendingUp, Sparkles, Grid3X3, Dna, RotateCcw, ChevronRight, Calendar, Bookmark, Trophy, Flame, Medal, Crown } from 'lucide-react';
+import { Film, Star, BarChart3, TrendingUp, Sparkles, Grid3X3, Dna, RotateCcw, ChevronRight, Calendar, Bookmark, Trophy, Flame, Medal, Crown, type LucideIcon } from 'lucide-react';
 import { useAnimeStats } from '../hooks/useApiData';
 import SectionReveal from './SectionReveal';
 import type { GenreData, SeasonalData, LengthData } from '../types/api';
@@ -976,14 +976,281 @@ const ExpandedView = forwardRef<HTMLDivElement, { genres: GenreData[]; maxCount:
   }
 );
 
+type InsightPanel = 'overview' | 'score' | 'library' | 'length' | 'seasons' | 'genres';
+
+const INSIGHT_META: Record<InsightPanel, { label: string; subtitle: string; color: string; icon: LucideIcon }> = {
+  overview: {
+    label: 'Overview',
+    subtitle: 'Quick essentials',
+    color: '#F0B132',
+    icon: Sparkles,
+  },
+  score: {
+    label: 'Scores',
+    subtitle: 'Rating behavior',
+    color: '#5865F2',
+    icon: BarChart3,
+  },
+  library: {
+    label: 'Library',
+    subtitle: 'Collection status',
+    color: '#3BA55D',
+    icon: Bookmark,
+  },
+  length: {
+    label: 'Length',
+    subtitle: 'Episode preferences',
+    color: '#5865F2',
+    icon: TrendingUp,
+  },
+  seasons: {
+    label: 'Seasons',
+    subtitle: 'Yearly rhythm',
+    color: '#F0B132',
+    icon: Calendar,
+  },
+  genres: {
+    label: 'Genres',
+    subtitle: 'Taste DNA',
+    color: '#EB459E',
+    icon: Dna,
+  },
+};
+
 export default function AnimeStats() {
   const { data: stats } = useAnimeStats();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [activePanel, setActivePanel] = useState<InsightPanel>('overview');
 
   if (!stats?.userStats) return null;
 
   const { userStats, genres, scores, seasonalStats, lengthStats } = stats;
   const maxGenreCount = genres[0]?.count || 1;
+  const libraryStats: LibraryStatusItem[] = [
+    { label: 'Completed', value: userStats.completed, color: '#3BA55D' },
+    { label: 'Watching', value: userStats.watching, color: '#5865F2' },
+    { label: 'Plan to Watch', value: userStats.plan_to_watch, color: '#F0B132' },
+    { label: 'On Hold', value: userStats.on_hold, color: '#99AAB5' },
+    { label: 'Dropped', value: userStats.dropped, color: '#ED4245' },
+  ];
+
+  const availablePanels = useMemo(() => {
+    const panels: InsightPanel[] = ['overview', 'score', 'library'];
+    if (lengthStats && lengthStats.length > 0) panels.push('length');
+    if (seasonalStats && seasonalStats.length > 0) panels.push('seasons');
+    panels.push('genres');
+    return panels;
+  }, [lengthStats, seasonalStats]);
+
+  useEffect(() => {
+    if (!availablePanels.includes(activePanel)) {
+      setActivePanel('overview');
+    }
+  }, [activePanel, availablePanels]);
+
+  const activePanelIndex = Math.max(availablePanels.indexOf(activePanel), 0);
+
+  const showNextPanel = () => {
+    const nextIndex = (activePanelIndex + 1) % availablePanels.length;
+    setActivePanel(availablePanels[nextIndex]);
+  };
+
+  const renderPanel = (panel: InsightPanel) => {
+    if (panel === 'overview') {
+      const topGenres = genres.slice(0, 5);
+      return (
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div className="xl:col-span-2 rounded-2xl bg-[#16181D] border border-white/5 p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <Sparkles size={16} className="text-[#F0B132]" />
+              <h3 className="font-bold text-lg">Need-To-Know Snapshot</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-[#0F1014] border border-white/10 p-4">
+                <p className="text-xs uppercase tracking-wider text-[var(--text-muted)]">Titles</p>
+                <p className="text-2xl font-black text-white mt-1">{userStats.total_anime}</p>
+              </div>
+              <div className="rounded-xl bg-[#0F1014] border border-white/10 p-4">
+                <p className="text-xs uppercase tracking-wider text-[var(--text-muted)]">Episodes</p>
+                <p className="text-2xl font-black text-white mt-1">{userStats.total_episodes.toLocaleString()}</p>
+              </div>
+              <div className="rounded-xl bg-[#0F1014] border border-white/10 p-4">
+                <p className="text-xs uppercase tracking-wider text-[var(--text-muted)]">Watch Time</p>
+                <p className="text-2xl font-black text-white mt-1">{userStats.days_watched.toFixed(1)}d</p>
+              </div>
+              <div className="rounded-xl bg-[#0F1014] border border-white/10 p-4">
+                <p className="text-xs uppercase tracking-wider text-[var(--text-muted)]">Mean Score</p>
+                <p className="text-2xl font-black text-white mt-1">{userStats.mean_score.toFixed(2)}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 mt-5">
+              <a
+                href="#top-10"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F0B132] text-black text-sm font-bold hover:brightness-105 transition-all"
+              >
+                Jump to Top 10
+                <ChevronRight size={14} />
+              </a>
+              <a
+                href="#tier-list"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#5865F2] text-white text-sm font-bold hover:brightness-110 transition-all"
+              >
+                Jump to Tier List
+                <ChevronRight size={14} />
+              </a>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-[#16181D] border border-white/5 p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <TrendingUp size={16} className="text-[#EB459E]" />
+              <h3 className="font-bold text-lg">Top Genre Pulse</h3>
+            </div>
+            <div className="space-y-4">
+              {topGenres.map((genre, idx) => (
+                <GenreBar key={genre.name} genre={genre} index={idx} maxCount={maxGenreCount} />
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (panel === 'score') {
+      return (
+        <div className="rounded-2xl bg-[#1E2028] border border-white/5 p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <BarChart3 className="text-[#5865F2]" />
+            <div>
+              <h3 className="font-bold text-xl">Score Distribution</h3>
+              <p className="text-xs text-[var(--text-muted)]">How you rate your anime</p>
+            </div>
+          </div>
+          {scores && scores.length > 0 ? (
+            <ScoreDistributionGraph scores={scores} />
+          ) : (
+            <div className="rounded-xl bg-[#16181D] border border-white/5 py-12 text-center text-sm text-[var(--text-muted)]">
+              No score data available yet.
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (panel === 'library') {
+      return (
+        <div className="rounded-2xl bg-[#1E2028] border border-white/5 p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-[#5865F2]/20 flex items-center justify-center">
+              <Bookmark size={20} className="text-[#5865F2]" />
+            </div>
+            <div>
+              <h3 className="font-bold text-xl">Library Status</h3>
+              <p className="text-xs text-[var(--text-muted)]">Your anime collection breakdown</p>
+            </div>
+          </div>
+          <LibraryStatusList stats={libraryStats} />
+        </div>
+      );
+    }
+
+    if (panel === 'length') {
+      if (!lengthStats || lengthStats.length === 0) {
+        return (
+          <div className="rounded-2xl bg-[#1E2028] border border-white/5 p-6 text-sm text-[var(--text-muted)]">
+            Length preference data is not available.
+          </div>
+        );
+      }
+      return (
+        <div className="rounded-2xl bg-[#1E2028] border border-white/5 p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <BarChart3 className="text-[#5865F2]" />
+            <div>
+              <h3 className="font-bold text-xl">Length Preference</h3>
+              <p className="text-xs text-[var(--text-muted)]">Episode count breakdown</p>
+            </div>
+          </div>
+          <LengthPreferenceGraph stats={lengthStats} />
+        </div>
+      );
+    }
+
+    if (panel === 'seasons') {
+      if (!seasonalStats || seasonalStats.length === 0) {
+        return (
+          <div className="rounded-2xl bg-[#1E2028] border border-white/5 p-6 text-sm text-[var(--text-muted)]">
+            Seasonal data is not available.
+          </div>
+        );
+      }
+      return (
+        <div className="rounded-2xl bg-[#1E2028] border border-white/5 p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <Calendar className="text-[#F0B132]" />
+            <div>
+              <h3 className="font-bold text-xl">Seasonal Journey</h3>
+              <p className="text-xs text-[var(--text-muted)]">Your anime watching patterns across seasons</p>
+            </div>
+          </div>
+          <SeasonalTimeline stats={seasonalStats} />
+        </div>
+      );
+    }
+
+    return (
+      <div className="rounded-2xl bg-[#1E2028] border border-white/5 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#5865F2]/20 to-[#EB459E]/20 flex items-center justify-center">
+              {isExpanded ? (
+                <Grid3X3 size={20} className="text-[#EB459E]" />
+              ) : (
+                <Dna size={20} className="text-[#5865F2]" />
+              )}
+            </div>
+            <div>
+              <h3 className="font-bold text-xl">{isExpanded ? 'All Genres' : 'Genre Analysis'}</h3>
+              <p className="text-xs text-[var(--text-muted)]">
+                {isExpanded ? `Complete breakdown of all ${genres.length} genres` : 'Genre preference breakdown'}
+              </p>
+            </div>
+          </div>
+
+          <motion.button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F1014] border border-white/10 hover:border-white/20 hover:bg-[#15161C] transition-all group"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="text-sm font-bold text-[var(--text-secondary)] group-hover:text-white transition-colors">
+              {isExpanded ? 'Show DNA View' : 'Show All Genres'}
+            </span>
+            <motion.div
+              animate={{ rotate: isExpanded ? -360 : 0 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+            >
+              {isExpanded ? (
+                <RotateCcw size={16} className="text-[#5865F2]" />
+              ) : (
+                <Grid3X3 size={16} className="text-[#EB459E]" />
+              )}
+            </motion.div>
+          </motion.button>
+        </div>
+
+        <div className="relative min-h-[400px]">
+          <AnimatePresence mode="wait">
+            {isExpanded ? (
+              <ExpandedView key="expanded" genres={genres} maxCount={maxGenreCount} />
+            ) : (
+              <CompactView key="compact" genres={genres} maxCount={maxGenreCount} />
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <SectionReveal id="anime-stats" className="pb-24 pt-8 relative">
@@ -1068,160 +1335,90 @@ export default function AnimeStats() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-          {/* 2. Score Distribution */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-2 rounded-3xl bg-[#1E2028] border border-white/5 p-8"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <BarChart3 className="text-[#5865F2]" />
-              <div>
-                <h3 className="font-bold text-xl">Score Distribution</h3>
-                <p className="text-xs text-[var(--text-muted)]">
-                  How you rate your anime
-                </p>
-              </div>
-            </div>
-            <ScoreDistributionGraph scores={scores} />
-          </motion.div>
-
-          {/* 3. Library Status */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="rounded-3xl bg-[#1E2028] border border-white/5 p-8"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#5865F2]/20 flex items-center justify-center">
-                <Bookmark size={20} className="text-[#5865F2]" />
-              </div>
-              <div>
-                <h3 className="font-bold text-xl">Library Status</h3>
-                <p className="text-xs text-[var(--text-muted)]">
-                  Your anime collection breakdown
-                </p>
-              </div>
-            </div>
-            <LibraryStatusList
-              stats={[
-                { label: 'Completed', value: userStats.completed, color: '#3BA55D' },
-                { label: 'Watching', value: userStats.watching, color: '#5865F2' },
-                { label: 'Plan to Watch', value: userStats.plan_to_watch, color: '#F0B132' },
-                { label: 'On Hold', value: userStats.on_hold, color: '#99AAB5' },
-                { label: 'Dropped', value: userStats.dropped, color: '#ED4245' },
-              ]}
-            />
-          </motion.div>
-        </div>
-
-        {/* 4. Anime Length Preferences - Speedometer + Cards */}
-        {lengthStats && lengthStats.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-6 rounded-3xl bg-[#1E2028] border border-white/5 p-8"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <BarChart3 className="text-[#5865F2]" />
-              <div>
-                <h3 className="font-bold text-xl">Length Preference</h3>
-                <p className="text-xs text-[var(--text-muted)]">
-                  Episode count breakdown
-                </p>
-              </div>
-            </div>
-            <LengthPreferenceGraph stats={lengthStats} />
-          </motion.div>
-        )}
-
-        {/* 5. Seasonal Timeline Ribbon */}
-        {seasonalStats && seasonalStats.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-6 rounded-3xl bg-[#1E2028] border border-white/5 p-8"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <Calendar className="text-[#F0B132]" />
-              <div>
-                <h3 className="font-bold text-xl">Seasonal Journey</h3>
-                <p className="text-xs text-[var(--text-muted)]">
-                  Your anime watching patterns across seasons
-                </p>
-              </div>
-            </div>
-            <SeasonalTimeline stats={seasonalStats} />
-          </motion.div>
-        )}
-
-        {/* 6. Enhanced Genres Section with Transform */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-6 rounded-3xl bg-[#1E2028] border border-white/5 p-8"
+          className="mt-6 rounded-3xl bg-[#1E2028] border border-white/5 p-6 sm:p-8"
         >
-          {/* Header with Toggle */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#5865F2]/20 to-[#EB459E]/20 flex items-center justify-center">
-                {isExpanded ? (
-                  <Grid3X3 size={20} className="text-[#EB459E]" />
-                ) : (
-                  <Dna size={20} className="text-[#5865F2]" />
-                )}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles size={15} className="text-[#F0B132]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">
+                  Insight Deck
+                </span>
               </div>
-              <div>
-                <h3 className="font-bold text-xl">
-                  {isExpanded ? 'All Genres' : 'Genre Analysis'}
-                </h3>
-                <p className="text-xs text-[var(--text-muted)]">
-                  {isExpanded
-                    ? `Complete breakdown of all ${genres.length} genres`
-                    : 'Genre preference breakdown'}
-                </p>
-              </div>
+              <h3 className="text-2xl font-black">Focus On What Matters</h3>
+              <p className="text-sm text-[var(--text-muted)] mt-1">
+                One panel at a time so users can scan fast, then progressively reveal deeper stats.
+              </p>
             </div>
 
-            {/* View Toggle Button */}
-            <motion.button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F1014] border border-white/10 hover:border-white/20 hover:bg-[#15161C] transition-all group"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="text-sm font-bold text-[var(--text-secondary)] group-hover:text-white transition-colors">
-                {isExpanded ? 'Show DNA View' : 'Show All Genres'}
-              </span>
-              <motion.div
-                animate={{ rotate: isExpanded ? -360 : 0 }}
-                transition={{ duration: 0.5, ease: 'easeInOut' }}
+            <div className="flex items-center gap-3">
+              <a
+                href="#top-10"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F0B132] text-black text-sm font-bold hover:brightness-105 transition-all"
               >
-                {isExpanded ? (
-                  <RotateCcw size={16} className="text-[#5865F2]" />
-                ) : (
-                  <Grid3X3 size={16} className="text-[#EB459E]" />
-                )}
-              </motion.div>
-            </motion.button>
+                Top 10
+                <ChevronRight size={14} />
+              </a>
+              <a
+                href="#tier-list"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#5865F2] text-white text-sm font-bold hover:brightness-110 transition-all"
+              >
+                Tier List
+                <ChevronRight size={14} />
+              </a>
+            </div>
           </div>
 
-          {/* Content Area with Animated Transition */}
-          <div className="relative min-h-[400px]">
-            <AnimatePresence mode="wait">
-              {isExpanded ? (
-                <ExpandedView key="expanded" genres={genres} maxCount={maxGenreCount} />
-              ) : (
-                <CompactView key="compact" genres={genres} maxCount={maxGenreCount} />
-              )}
-            </AnimatePresence>
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {availablePanels.map((panel) => {
+              const meta = INSIGHT_META[panel];
+              const Icon = meta.icon;
+              const isActive = activePanel === panel;
+              return (
+                <button
+                  key={panel}
+                  onClick={() => setActivePanel(panel)}
+                  className={`shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl border transition-all ${
+                    isActive
+                      ? 'bg-[#0F1014] text-white border-white/20'
+                      : 'bg-transparent text-[var(--text-muted)] border-white/10 hover:border-white/20 hover:text-white'
+                  }`}
+                >
+                  <Icon size={15} style={{ color: isActive ? meta.color : undefined }} />
+                  <span className="text-sm font-bold">{meta.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activePanel}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              className="mt-6"
+            >
+              {renderPanel(activePanel)}
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+            <div className="text-xs text-[var(--text-muted)]">
+              {INSIGHT_META[activePanel].subtitle} - Insight {activePanelIndex + 1} of {availablePanels.length}
+            </div>
+            <button
+              onClick={showNextPanel}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F1014] border border-white/10 hover:border-white/20 hover:text-white text-sm font-bold text-[var(--text-secondary)] transition-all"
+            >
+              Show Next Insight
+              <ChevronRight size={14} />
+            </button>
           </div>
         </motion.div>
       </div>

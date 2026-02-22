@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Crown, Layers, ChevronDown, ChevronRight, ExternalLink, Search, X } from 'lucide-react';
 import { useTop10, useTiers } from '../hooks/useApiData';
@@ -135,6 +135,21 @@ export default function TierDisplay() {
   const { data: top10 } = useTop10();
   const { data: tiers } = useTiers();
 
+  useEffect(() => {
+    const syncViewWithHash = () => {
+      if (window.location.hash === '#top-10') {
+        setView('top10');
+      }
+      if (window.location.hash === '#tier-list') {
+        setView('tiers');
+      }
+    };
+
+    syncViewWithHash();
+    window.addEventListener('hashchange', syncViewWithHash);
+    return () => window.removeEventListener('hashchange', syncViewWithHash);
+  }, []);
+
   const searchResults = useMemo(() => {
     if (!searchQuery.trim() || !tiers) return [];
     
@@ -174,6 +189,7 @@ export default function TierDisplay() {
           {/* View Toggle */}
           <div className="bg-[#16181D] p-1 rounded-xl border border-white/5 flex">
             <button
+              id="top-10"
               onClick={() => setView('top10')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 view === 'top10' 
