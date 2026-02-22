@@ -1021,18 +1021,11 @@ export default function AnimeStats() {
   const { data: stats } = useAnimeStats();
   const [isExpanded, setIsExpanded] = useState(false);
   const [activePanel, setActivePanel] = useState<InsightPanel>('overview');
-
-  if (!stats?.userStats) return null;
-
-  const { userStats, genres, scores, seasonalStats, lengthStats } = stats;
+  const genres = stats?.genres ?? [];
+  const scores = stats?.scores ?? [];
+  const seasonalStats = stats?.seasonalStats ?? [];
+  const lengthStats = stats?.lengthStats ?? [];
   const maxGenreCount = genres[0]?.count || 1;
-  const libraryStats: LibraryStatusItem[] = [
-    { label: 'Completed', value: userStats.completed, color: '#3BA55D' },
-    { label: 'Watching', value: userStats.watching, color: '#5865F2' },
-    { label: 'Plan to Watch', value: userStats.plan_to_watch, color: '#F0B132' },
-    { label: 'On Hold', value: userStats.on_hold, color: '#99AAB5' },
-    { label: 'Dropped', value: userStats.dropped, color: '#ED4245' },
-  ];
 
   const availablePanels = useMemo(() => {
     const panels: InsightPanel[] = ['overview', 'score', 'library'];
@@ -1047,6 +1040,17 @@ export default function AnimeStats() {
       setActivePanel('overview');
     }
   }, [activePanel, availablePanels]);
+
+  if (!stats?.userStats) return null;
+  const { userStats } = stats;
+
+  const libraryStats: LibraryStatusItem[] = [
+    { label: 'Completed', value: userStats.completed, color: '#3BA55D' },
+    { label: 'Watching', value: userStats.watching, color: '#5865F2' },
+    { label: 'Plan to Watch', value: userStats.plan_to_watch, color: '#F0B132' },
+    { label: 'On Hold', value: userStats.on_hold, color: '#99AAB5' },
+    { label: 'Dropped', value: userStats.dropped, color: '#ED4245' },
+  ];
 
   const activePanelIndex = Math.max(availablePanels.indexOf(activePanel), 0);
 
