@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Film, Star, BarChart3, TrendingUp, Sparkles, Grid3X3, Dna, RotateCcw, ChevronRight, Calendar, Bookmark, Trophy, Flame, Medal, Crown, type LucideIcon } from 'lucide-react';
+import { Film, Star, BarChart3, TrendingUp, Sparkles, Grid3X3, Dna, RotateCcw, ChevronRight, ChevronDown, Calendar, Bookmark, Trophy, Flame, Medal, Crown, ExternalLink, type LucideIcon } from 'lucide-react';
 import { useAnimeStats } from '../hooks/useApiData';
 import SectionReveal from './SectionReveal';
 import type { GenreData, SeasonalData, LengthData } from '../types/api';
@@ -431,20 +431,156 @@ function ScoreDistributionGraph({ scores }: { scores: { score: number; count: nu
   );
 }
 
+type LibraryStatusKey = 'completed' | 'watching' | 'plan_to_watch' | 'on_hold' | 'dropped';
+
 interface LibraryStatusItem {
+  key: LibraryStatusKey;
   label: string;
   value: number;
   color: string;
+  malStatus: number;
 }
 
-function LibraryStatusList({ stats }: { stats: LibraryStatusItem[] }) {
+function LibraryStatusList({ stats, username }: { stats: LibraryStatusItem[]; username?: string }) {
   const totalCount = stats.reduce((acc, s) => acc + s.value, 0);
   const maxCount = Math.max(...stats.map(s => s.value), 1);
+  const sortedStats = useMemo(() => [...stats].sort((a, b) => b.value - a.value), [stats]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedStatusKey, setSelectedStatusKey] = useState<LibraryStatusKey | null>(sortedStats[0]?.key ?? null);
 
-  const sortedStats = [...stats].sort((a, b) => b.value - a.value);
+  useEffect(() => {
+    if (!selectedStatusKey || !stats.some((stat) => stat.key === selectedStatusKey)) {
+      setSelectedStatusKey(sortedStats[0]?.key ?? null);
+    }
+  }, [selectedStatusKey, sortedStats, stats]);
+
+  if (sortedStats.length === 0) return null;
+
+  const selectedStatus = sortedStats.find((stat) => stat.key === selectedStatusKey) ?? sortedStats[0];
+  const selectedRank = sortedStats.findIndex((stat) => stat.key === selectedStatus.key) + 1;
+  const selectedShare = totalCount > 0 ? (selectedStatus.value / totalCount) * 100 : 0;
+  const selectedDominance = maxCount > 0 ? (selectedStatus.value / maxCount) * 100 : 0;
+  const malStatusUrl = username
+    ? `https://myanimelist.net/animelist/${encodeURIComponent(username)}?status=${selectedStatus.malStatus}`
+    : null;
   
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
+      <div className="rounded-xl bg-[#0F1014] border border-white/10 p-4 sm:p-5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-[var(--text-muted)]">Status Explorer</p>
+            <p className="text-sm text-[var(--text-secondary)] mt-1">Pick a status to inspect it in detail.</p>
+          </div>
+
+          <div className="relative w-full sm:w-auto">
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
+              className="w-full sm:min-w-[220px] flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-[#16181D] border border-white/10 hover:border-white/20 hover:bg-[#1A1D24] transition-all"
+              aria-haspopup="listbox"
+              aria-expanded={isDropdownOpen}
+            >
+              <span className="text-sm font-bold" style={{ color: selectedStatus.color }}>
+                {selectedStatus.label}
+              </span>
+              <motion.span
+                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="text-[var(--text-muted)]"
+              >
+                <ChevronDown size={16} />
+              </motion.span>
+            </button>
+
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute right-0 z-20 mt-2 w-full sm:w-64 rounded-xl bg-[#16181D] border border-white/10 p-2 shadow-2xl shadow-black/30"
+                  role="listbox"
+                >
+                  {sortedStats.map((stat) => {
+                    const isActive = stat.key === selectedStatus.key;
+                    return (
+                      <button
+                        key={stat.key}
+                        type="button"
+                        onClick={() => {
+                          setSelectedStatusKey(stat.key);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-all ${
+                          isActive ? 'bg-white/10' : 'hover:bg-white/5'
+                        }`}
+                      >
+                        <span className="text-sm font-semibold" style={{ color: stat.color }}>
+                          {stat.label}
+                        </span>
+                        <span className="text-sm font-black text-white">{stat.value}</span>
+                      </button>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedStatus.key}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="mt-4 rounded-xl bg-[#16181D] border border-white/10 p-4"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-wider text-[var(--text-muted)]">Selected Status</p>
+                <p className="text-xl font-black mt-1" style={{ color: selectedStatus.color }}>
+                  {selectedStatus.label}
+                </p>
+              </div>
+              {malStatusUrl && (
+                <a
+                  href={malStatusUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-[#0F1014] border border-white/10 text-xs font-bold text-[var(--text-secondary)] hover:text-white hover:border-white/20 transition-all"
+                >
+                  Open Full List
+                  <ExternalLink size={13} />
+                </a>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
+              <div className="rounded-lg bg-[#0F1014] border border-white/10 p-3">
+                <p className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">Titles</p>
+                <p className="text-lg font-black text-white mt-1">{selectedStatus.value}</p>
+              </div>
+              <div className="rounded-lg bg-[#0F1014] border border-white/10 p-3">
+                <p className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">Library Share</p>
+                <p className="text-lg font-black text-white mt-1">{selectedShare.toFixed(1)}%</p>
+              </div>
+              <div className="rounded-lg bg-[#0F1014] border border-white/10 p-3">
+                <p className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">Rank</p>
+                <p className="text-lg font-black text-white mt-1">#{selectedRank}</p>
+              </div>
+              <div className="rounded-lg bg-[#0F1014] border border-white/10 p-3">
+                <p className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">Vs Top Status</p>
+                <p className="text-lg font-black text-white mt-1">{selectedDominance.toFixed(1)}%</p>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
       {sortedStats.map((stat, i) => {
         const percentage = (stat.value / maxCount) * 100;
         
@@ -1045,11 +1181,11 @@ export default function AnimeStats() {
   const { userStats } = stats;
 
   const libraryStats: LibraryStatusItem[] = [
-    { label: 'Completed', value: userStats.completed, color: '#3BA55D' },
-    { label: 'Watching', value: userStats.watching, color: '#5865F2' },
-    { label: 'Plan to Watch', value: userStats.plan_to_watch, color: '#F0B132' },
-    { label: 'On Hold', value: userStats.on_hold, color: '#99AAB5' },
-    { label: 'Dropped', value: userStats.dropped, color: '#ED4245' },
+    { key: 'completed', label: 'Completed', value: userStats.completed, color: '#3BA55D', malStatus: 2 },
+    { key: 'watching', label: 'Watching', value: userStats.watching, color: '#5865F2', malStatus: 1 },
+    { key: 'plan_to_watch', label: 'Plan to Watch', value: userStats.plan_to_watch, color: '#F0B132', malStatus: 6 },
+    { key: 'on_hold', label: 'On Hold', value: userStats.on_hold, color: '#99AAB5', malStatus: 3 },
+    { key: 'dropped', label: 'Dropped', value: userStats.dropped, color: '#ED4245', malStatus: 4 },
   ];
 
   const activePanelIndex = Math.max(availablePanels.indexOf(activePanel), 0);
@@ -1153,7 +1289,7 @@ export default function AnimeStats() {
               <p className="text-xs text-[var(--text-muted)]">Your anime collection breakdown</p>
             </div>
           </div>
-          <LibraryStatusList stats={libraryStats} />
+          <LibraryStatusList stats={libraryStats} username={userStats.username} />
         </div>
       );
     }
